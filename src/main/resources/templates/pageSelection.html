@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="pageSel(pagesize, currentPage, totalPages)">
+
+    <!-- Page selection and size setting-->
+    <form th:action="@{/}" th:method="get">
+        <label>Items per page</label>
+        <input type="hidden" name="page" th:value="0" />
+        <select th:name="size" onchange="this.form.submit()">
+            <option th:each="i: ${#numbers.sequence(1, 5)}"
+                    th:text = "${i} * 5" th:value="${i} * 5"
+                    th:selected="${i} * 5 == ${pagesize}"
+            ></option>
+        </select>
+
+        <label>Page number</label>
+        <th:block th:each="i: ${#numbers.sequence(0, totalPages - 1)}">
+    <span th:if="${i} == ${currentPage}">
+        <b>[[${page.getNumber()} + 1]]</b>
+    </span>
+            <span th:unless="${i} == ${currentPage}">
+        <a th:href="@{/(size = ${pagesize}, page = ${i})}" th:text="${i} + 1"></a>
+    </span>
+        </th:block>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All products</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+<h4>Products</h4>
+
+<!-- Link to the new product form -->
+<a href = "newProduct">Add new product</a>
+
+<!-- Product filter (all, with min price, max price and both)-->
+<p>Show product</p>
+<form th:action="@{/}" th:method="get">
+    <select th:name="filter" onchange="this.form.submit()">
+        <option>All</option>
+        <option value="cheap" th:selected="'cheap' == ${filter}">Cheap</option>
+        <option value="expensive" th:selected="'expensive' == ${filter}">Expensive</option>
+        <option value="both" th:selected="'both' == ${filter}">Most cheap and expensive</option>
+    </select>
+</form>
+
+<table th:width="800">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    <tr th:each="product : ${products}" align="center">
+        <td th:text="${product.id}"/>
+        <td th:text="${product.title}"/>
+        <td th:text="${product.price}"/>
+        <td><a class="ui-button" th:href="@{/deleteProduct(id = ${product.getId()})}">Remove</a></td>
+    </tr>
+</table>
+
+<div th:if="${page.getPageable().isPaged()}">
+    <div th:replace="~{pageSelection :: pageSel(${page.getSize()}, ${page.getNumber()}, ${page.getTotalPages()})}">
+    </div>
+</div>
+
+</body>
+</html>
