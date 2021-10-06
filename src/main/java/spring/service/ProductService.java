@@ -20,6 +20,7 @@ public class ProductService {
     }
 
     public Page<Product> findAll(int pageSize, int pageNum){
+
         return dao.findAll(pageSize, pageNum);
     }
 
